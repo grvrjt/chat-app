@@ -6,15 +6,24 @@ const Chat = ({ location }) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const ENDPOINT = 'localhost:5000';
+
     useEffect(() => {
         const { name, room } = queryString.parse(location.search);
-        console.log(name, room)
 
         socket = io(ENDPOINT);
+
         setName(name);
         setRoom(room);
-        console.log("Socket data ---->", socket);
-        socket.emit('join', { name: name, room: room });
+
+        socket.emit('join', { name: name, room: room }, () => {
+
+        });
+
+        return () => {  // This is used for unmounting ...
+            socket.emit('disconnect');
+            socket.off();
+        }
+
     }, [ENDPOINT, location.search])
 
 
