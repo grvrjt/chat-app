@@ -19,7 +19,7 @@ const Chat = ({ location }) => {
 
         });
 
-        return () => {  // This is used for unmounting ...
+        return () => {  // This is used for unmounting
             socket.emit('disconnect');
             socket.off();
         }
